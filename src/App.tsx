@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ChakraProvider, Flex } from '@chakra-ui/react'
+import { useQuery, gql } from '@apollo/client';
+
+
+const TRANSLATE_WORD = gql`
+  query {
+    translateWord(plWord: "okno") {
+      plWord
+      angWord
+      translationId
+    }
+  }
+`;
 
 function App() {
+  const { loading, error, data } = useQuery(TRANSLATE_WORD);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <Flex w='100%' h='100vh' backgroundColor='#22222a' color='white'>
+        {data && console.log(data)}
+        Elo
+      </Flex>
+    </ChakraProvider>
   );
 }
 
