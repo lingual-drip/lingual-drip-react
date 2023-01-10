@@ -1,4 +1,4 @@
-export const thirtPersonNegativeFutureSimple = [
+export const thirdPersonNegativeFutureSimple = [
     "On nie będzie pracował w niedzielę.",
     "Ona nie będzie gotowała kolacji dla rodziny.",
     "On nie będzie jeździł na wycieczkę rowerową.",
