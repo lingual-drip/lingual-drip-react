@@ -1,0 +1,1 @@
+export const getAuthToken = (state: any) => state?.auth?.token

@@ -1,0 +1,1 @@
+export const getToken = () => localStorage.getItem('lingual_drip_access_token') || undefined

@@ -1,0 +1,1 @@
+export const getWordsListSelector = (state: any) => state?.wordsList?.wordsList
