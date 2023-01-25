@@ -1,4 +1,4 @@
-import { service } from "../../commons/axiosService";
+import service from "../../commons/axiosService";
 
 export const authService = async (payload: any) => {
   let access_token = localStorage.getItem('lingual_drip_access_token')
