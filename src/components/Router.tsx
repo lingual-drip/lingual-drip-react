@@ -35,7 +35,7 @@ const Router = () => {
   }, [menuRef]);
 
   return (
-    <Flex w="100%" h="100vh" backgroundColor="#efefef">
+    <Flex w="100%" minH="100vh" backgroundColor="#efefef">
       <BrowserRouter>
         <Flex
           w="240px"
@@ -46,7 +46,9 @@ const Router = () => {
           ref={menuRef}
           color="#EEEFF0"
           //@ts-ignore
-          position={{ base: 'absolute', md: 'unset'}}
+          position='sticky'
+          top='0'
+          left='0'
           zIndex='1'
           display={{ base: openedMobileMenu ? "flex" : "none", md: "flex" }}
         >

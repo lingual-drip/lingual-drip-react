@@ -9,13 +9,21 @@ import { getLearningWordSelector } from "../store/words/selectors";
 const LearningWords = () => {
   const dispatch = useDispatch();
   const learningWord = useSelector(getLearningWordSelector);
+  const [currentWord, setCurrentWord] = useState<any>(null)
+  const [wordIndex, setWordIndex] = useState<number>(0)
   const [step, setStep] = useState(1);
 
   useEffect(() => {
-    if (step === 1) {
-      dispatch(getLearningWord());
-    }
-  }, [step]);
+    wordIndex === 0 && step === 1 && dispatch(getLearningWord());
+  }, []);
+
+  useEffect(() => {
+    step === 1 &&  learningWord && setWordIndex((oldIndex) => ++oldIndex)
+  }, [step])
+
+  useEffect(() => {
+    learningWord && setCurrentWord(learningWord[wordIndex])
+  }, [wordIndex, learningWord])
 
   return (
     <Flex w="100%" direction="column">
@@ -29,13 +37,13 @@ const LearningWords = () => {
         fontSize="15px"
         fontWeight={700}
       >
-        {learningWord && `Step ${learningWord?.step}`}
+        {currentWord && `Step ${currentWord?.step}`}
       </Flex>
-      {step === 1 && learningWord && (
-        <FirstStep word={learningWord} setStep={setStep} />
+      {step === 1 && currentWord && (
+        <FirstStep word={currentWord} setStep={setStep} />
       )}
-      {step === 2 && learningWord && (
-        <SecondStep word={learningWord} setStep={setStep} />
+      {step === 2 && currentWord && (
+        <SecondStep word={currentWord} setStep={setStep} />
       )}
       {!learningWord && (
         <Flex

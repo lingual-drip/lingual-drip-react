@@ -58,7 +58,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Flex w="100%" h="100vh">
+      <Flex w="100%" minH="100vh">
         {statistic && statistic !== "no-token" ? (
           <Router />
         ) : !statistic ? (
@@ -68,7 +68,7 @@ function App() {
         ) : (
           <Flex
             w="100%"
-            h="100vh"
+            minH="100vh"
             backgroundColor="#0F172A"
             justifyContent="center"
             alignItems="center"

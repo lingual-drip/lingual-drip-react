@@ -52,14 +52,14 @@ const SecondStep = ({ word, setStep }: any) => {
             answer.map((letter: string) => (
               <Flex
                 key={uuidv4()}
-                w="40px"
-                h="40px"
+                w="20px"
+                h="20px"
                 backgroundColor={done ? "green.500" : "#000"}
-                borderRadius="5"
+                borderRadius="2"
                 color="#fff"
                 justifyContent="center"
                 alignItems="center"
-                fontSize="20px"
+                fontSize="12px"
                 mt='5px'
                 fontWeight={700}
                 ml="5px"

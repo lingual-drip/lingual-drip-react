@@ -12,10 +12,13 @@ export default createReducer(
       ...state,
       wordsList: data,
     }),
-    [setLearningWord as any]: (state: any, data: any) => ({
+    [setLearningWord as any]: (state: any, data: any) => {
+      console.log('store',data);
+      
+      return {
       ...state,
       learningWord: data,
-    })
+    }}
   },
   initialState
 );
