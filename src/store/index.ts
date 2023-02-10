@@ -4,11 +4,13 @@ import createSagaMiddleware from 'redux-saga';
 
 import authReducer from './auth/reducer';
 import wordsListReducer from './words/reducer';
+import userReducer from './user/reducer';
 import rootSaga from './saga';
 
 const reducers = combineReducers({
   auth: authReducer,
-  wordsList: wordsListReducer
+  wordsList: wordsListReducer,
+  user: userReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();

@@ -10,6 +10,7 @@ import Dashboard from "../pages/Dashboard";
 import LearningWords from "../pages/LearningWords";
 import WordsList from "../pages/WordsList";
 import { useEffect, useRef, useState } from "react";
+import Settings from "../pages/Settings";
 
 const Router = () => {
   const menuRef: any = useRef(null);
@@ -67,6 +68,7 @@ const Router = () => {
             <Flex
               w="100%"
               h="40px"
+              color="#EEEFF0"
               pl="20px"
               justifyContent="flex-start"
               alignItems="center"
@@ -79,12 +81,27 @@ const Router = () => {
             <Flex
               w="100%"
               h="40px"
+              color="#EEEFF0"
               pl="20px"
               justifyContent="flex-start"
               alignItems="center"
               _hover={{ background: "#1e2b38", cursor: "pointer" }}
             >
               Words List
+            </Flex>
+          </Link>
+          <Flex ml='10px' mb='10px' mt='20px' color='#b1b1b1'>Profile</Flex>
+          <Link onClick={() => setOpenedMobileMenu(false)} to="/settings">
+            <Flex
+              w="100%"
+              h="40px"
+              color="#EEEFF0"
+              pl="20px"
+              justifyContent="flex-start"
+              alignItems="center"
+              _hover={{ background: "#1e2b38", cursor: "pointer" }}
+            >
+              Settings
             </Flex>
           </Link>
         </Flex>
@@ -108,6 +125,7 @@ const Router = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="learning-words" element={<LearningWords />} />
             <Route path="words-list" element={<WordsList />} />
+            <Route path="settings" element={<Settings />} />
           </Routes>
       </BrowserRouter>
     </Flex>

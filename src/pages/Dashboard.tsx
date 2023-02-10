@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 
 const Dashboard = () => {
-  return <Flex color="#EEEFF0">
+  return <Flex>
     Dashboard
     </Flex>;
 };

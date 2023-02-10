@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import {
   ChakraProvider,
   Flex,
@@ -8,31 +7,64 @@ import {
   Card,
   CardBody,
   Button,
+  Checkbox,
 } from "@chakra-ui/react";
-import { Formik, Form } from "formik";
-import { getToken } from "./commons/authentication/getToken";
-import { storageToken } from "./commons/authentication/storageToken";
+import { Formik } from "formik";
 import Router from "./components/Router";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthentication } from "./store/auth/actions";
 import { getAuthToken } from "./store/auth/selectors";
+import { getUserStatistic } from "./store/user/actions";
+import { getUserStatisticSelector } from "./store/user/selectors";
+import Loader from "./components/Loader";
+import { getLoginData } from "./commons/authentication/getLoginData";
 
 interface LoginForm {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 function App() {
-  const dispatch = useDispatch()
-  
-  const isAuthentication = useSelector(getAuthToken)
+  const dispatch = useDispatch();
 
-  const initialValues: LoginForm = { email: "", password: "" };
+  const isAuthentication = useSelector(getAuthToken);
+  const statistic = useSelector(getUserStatisticSelector);
+
+  useEffect(() => {
+    if(statistic === 'no-token') {
+      const loginData = getLoginData()
+
+      if(loginData) {
+        dispatch(
+          getAuthentication({
+            email: loginData.email,
+            password: loginData.password
+          })
+        );
+      }
+    }
+  }, [statistic])
+
+  useEffect(() => {
+    dispatch(getUserStatistic());
+  }, [isAuthentication]);
+
+  const initialValues: LoginForm = {
+    email: "",
+    password: "",
+    rememberMe: false,
+  };
+
   return (
     <ChakraProvider>
-      <Flex w="100%" h="100vh" backgroundColor="red.500">
-        {isAuthentication ? (
+      <Flex w="100%" h="100vh">
+        {statistic && statistic !== "no-token" ? (
           <Router />
+        ) : !statistic ? (
+          <Flex width="100%" justifyContent="center" alignItems="center">
+            <Loader />
+          </Flex>
         ) : (
           <Flex
             w="100%"
@@ -46,30 +78,75 @@ function App() {
                 <Formik
                   initialValues={initialValues}
                   onSubmit={async (
-                    { email, password }: LoginForm,
+                    { email, password, rememberMe }: LoginForm,
                     actions: any
                   ) => {
-                    dispatch(getAuthentication({ email: "elo@elo.pl", password: "admin" }))
+                    dispatch(
+                      //elo@elo.pl/admin
+                      getAuthentication({
+                        email,
+                        password,
+                        rememberMe
+                      })
+                    );
                     actions.setSubmitting(false);
                   }}
                 >
-                  <Form>
-                    <Text color="#EEEFF0">
-                      Login to App
-                      <Input mt="17px" variant="outline" placeholder="Email" />
-                      <Input
-                        mt="15px"
-                        type="password"
-                        variant="outline"
-                        placeholder="password"
-                      />
-                    </Text>
-                    <Flex justifyContent="flex-end">
-                      <Button mt="15px" colorScheme="green" type="submit">
-                        Green
-                      </Button>
-                    </Flex>
-                  </Form>
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting,
+                    /* and other goodies */
+                  }) => (
+                    <form onSubmit={handleSubmit}>
+                      <>
+                        <Text color="#EEEFF0">
+                          Login to App
+                          <Input
+                            mt="17px"
+                            variant="outline"
+                            placeholder="Email"
+                            name="email"
+                            onChange={handleChange}
+                            value={values.email}
+                          />
+                          <Input
+                            mt="15px"
+                            type="password"
+                            name="password"
+                            variant="outline"
+                            placeholder="password"
+                            onChange={handleChange}
+                            value={values.password}
+                          />
+                        </Text>
+                        <Flex
+                          justifyContent="space-between"
+                          alignItems="center"
+                          mt='10px'
+                        >
+                          <Checkbox
+                            type="checkbox"
+                            name="rememberMe"
+                            color="#fff"
+                            onChange={handleChange}
+                          >
+                            Remember me
+                          </Checkbox>
+                          <Button mt="15px" colorScheme="green" type="submit">
+                            Log-in
+                          </Button>
+                        </Flex>
+                        <Flex color='red.400' w='260px' h='24px'>
+                          {isAuthentication && isAuthentication === 'bad-data' && 'Incorrect login details'}
+                        </Flex>
+                      </>
+                    </form>
+                  )}
                 </Formik>
               </CardBody>
             </Card>

@@ -23,7 +23,9 @@ const SecondStep = ({ word, setStep }: any) => {
     <Flex w="100%" justifyContent="center" mt="50px">
       <Flex
         w="300px"
-        h="245px"
+        h="271px"
+        pb='30px'
+        boxSizing="content-box"
         borderWidth={1}
         borderColor="gray.400"
         borderRadius={4}
@@ -40,7 +42,7 @@ const SecondStep = ({ word, setStep }: any) => {
         </Flex>
         <Flex
           w="100%"
-          h="40px"
+          minHeight="77px"
           wrap="wrap"
           justifyContent="center"
           mb="15px"
@@ -58,6 +60,7 @@ const SecondStep = ({ word, setStep }: any) => {
                 justifyContent="center"
                 alignItems="center"
                 fontSize="20px"
+                mt='5px'
                 fontWeight={700}
                 ml="5px"
               >
@@ -66,7 +69,8 @@ const SecondStep = ({ word, setStep }: any) => {
             ))}
         </Flex>
         <Flex w="100%" wrap="wrap" justifyContent="center" mb="15px">
-          {letters?.map((item: any, index: number) => (
+          {console.log(letters, letters?.length)}
+          {letters?.length && letters?.map((item: any, index: number) => (
             <Flex
               key={uuidv4()}
               w="40px"
@@ -78,13 +82,16 @@ const SecondStep = ({ word, setStep }: any) => {
               alignItems="center"
               fontSize="20px"
               fontWeight={700}
+              mt='5px'
               ml="5px"
               _hover={{ cursor: "pointer" }}
               onClick={() => {
                 if (word.angWord[countClick] === item) {
                   setAnswer((oldState: any[]) => oldState.concat([item]));
                   setLetters((oldState: []) =>
-                    oldState.map((letter, i) => index !== i && letter)
+                    oldState.map((letter, i) => {
+                      if(index !== i) return letter
+                    })
                   );
                   setCountClick((oldstate: number) => oldstate + 1);
                 } else {
@@ -104,7 +111,6 @@ const SecondStep = ({ word, setStep }: any) => {
             style={{
               width: "100px",
               alignSelf: "center",
-              marginTop: "30px",
               marginRight: "10px",
               marginBottom: "10px",
             }}

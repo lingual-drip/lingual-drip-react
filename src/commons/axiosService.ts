@@ -3,10 +3,8 @@ import { getToken } from './authentication/getToken';
 import { logOut } from './authentication/logOut';
 
 const service = axios.create({
-  baseURL: 'http://localhost:8000/',
-  // headers: {
-  //   'Authorization': `Bearer ${getToken()}`
-  // }
+  // baseURL: 'http://localhost:8000/',
+  baseURL: 'https://lingual-drip-api-production.up.railway.app/',
 })
 
 service.interceptors.request.use((config) => {

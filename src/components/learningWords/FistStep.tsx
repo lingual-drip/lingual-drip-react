@@ -1,8 +1,14 @@
 import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
+import service from "../../commons/axiosService";
 
 const FirstStep = ({ word, setStep }: any) => {
   const [showTranslate, setShowTranslate] = useState(false);
+
+  const sendVote = (type: string) => {
+    service.post('/learning-words/add-point-to-word', { type, wordId: word.learningWordId})
+    setStep(2)
+  }
   return (
       <Flex w="100%" justifyContent="center" mt="50px">
         <Flex
@@ -54,14 +60,10 @@ const FirstStep = ({ word, setStep }: any) => {
               mt="30px"
               mb="15px"
             >
-              <button type="button" className="btn btn-danger" onClick={() => {
-                setStep(2)
-              }}>
+              <button type="button" className="btn btn-danger" onClick={() => sendVote('minus')}>
                 I don't remember
               </button>
-              <button type="button" className="btn btn-success" onClick={() => {
-                setStep(2)
-              }}>
+              <button type="button" className="btn btn-success" onClick={() => sendVote('plus')}>
                 I remember
               </button>
             </Flex>
